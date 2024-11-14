@@ -3,56 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random HTML Example</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f8ff;
-        }
-        .container {
-            text-align: center;
-        }
-        h1 {
-            color: #333;
-        }
-        .dynamic-button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .dynamic-button:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <title>Mongolian Spell Checker</title>
 </head>
 <body>
-    <div class="container">
-        <h1>sanki gomo</h1>
-        <button class="dynamic-button" onclick="displayMessage()">Click Me!</button>
-        <p id="message"></p>
-    </div>
+    <h1>Mongolian Spell Checker</h1>
+    <form id="spellCheckForm" method="post" action="{% url 'spell_check' %}">
+        {% csrf_token %}
+        <textarea name="text" rows="4" cols="50" placeholder="Enter Mongolian text"></textarea>
+        <button type="submit">Check Spelling</button>
+    </form>
+    <div id="results"></div>
 
-    <script>
-        function displayMessage() {
-            const messages = [
-                "Hello, world!",
-                "Welcome to this page!",
-                "Have a great day!",
-                "Keep coding!",
-                "You're doing amazing!"
-            ];
-            const randomIndex = Math.floor(Math.random() * messages.length);
-            document.getElementById("message").textContent = messages[randomIndex];
-        }
-    </script>
+    <script src="{{ STATIC_URL }}js/script.js"></script>
 </body>
 </html>
