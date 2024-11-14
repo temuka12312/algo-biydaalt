@@ -1,44 +1,32 @@
 from django.shortcuts import render
-import os
-import json
-import logging
-from spellchecker import SpellChecker
-
-from django.http import JsonResponse
-
-from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
+from spellchecker import SpellChecker
+import logging
 
-# Create your views here.
+# Initialize logging
+logger = logging.getLogger(__name__)
 
-class First(TemplateView):
-    template_name = "index.html"
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-    
-
+# Initialize SpellChecker with a custom Mongolian word list
 spell = SpellChecker(language=None)
 
-mongolian_words = ["жишээ", "текст", "үнэ", "санал", "хүсэлт"]
-
-spell.word_frequency.load_words(mongolian_words)  
+try:
+    spell.word_frequency.load_text_file('mongolian_words.txt')  # Adjust path to actual file location
+except FileNotFoundError:
+    logger.error("Mongolian word list file not found. Please check the file path.")
+except Exception as e:
+    logger.error(f"An error occurred while loading the word list: {e}")
 
 @csrf_exempt
-def spell_check(request):
-    if request.method == "POST":
-        text = request.POST.get("text", "")
-        
-        words = text.split()
-        misspelled_words = {}
+def spell_check_view(request):
+    suggestions = {}
+    text = ""
+    
+    if request.method == 'POST':
+        text = request.POST.get('text', '')  # Retrieve the text input
+        words = text.split()  # Split text into individual words
+        misspelled_words = spell.unknown(words)  # Find misspelled words
 
-        for word in words:
-            if not spell[word]: 
-                suggestions = spell.candidates(word)
-                misspelled_words[word] = list(suggestions)
+        # Generate suggestions for each misspelled word
+        suggestions = {word: spell.correction(word) for word in misspelled_words}
 
-        return JsonResponse({"misspelled_words": misspelled_words})
-
-    return JsonResponse({"error": "Invalid request method"}, status=400)
-
+    return render(request, 'index.html', {'text': text, 'suggestions': suggestions})
