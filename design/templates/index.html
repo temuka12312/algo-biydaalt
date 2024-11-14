@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random HTML Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f8ff;
+        }
+        .container {
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        .dynamic-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .dynamic-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Random HTML Example</h1>
+        <button class="dynamic-button" onclick="displayMessage()">Click Me!</button>
+        <p id="message"></p>
+    </div>
+
+    <script>
+        function displayMessage() {
+            const messages = [
+                "Hello, world!",
+                "Welcome to this page!",
+                "Have a great day!",
+                "Keep coding!",
+                "You're doing amazing!"
+            ];
+            const randomIndex = Math.floor(Math.random() * messages.length);
+            document.getElementById("message").textContent = messages[randomIndex];
+        }
+    </script>
+</body>
+</html>
