@@ -4,21 +4,34 @@
     <meta charset="UTF-8" />
     <title>Mongolian Spell Checker</title>
     <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f5f5f5;
-        display: flex;
-        align-items: center;
-        min-height: 100vh;
+      * {
         margin: 0;
-        padding: 20px;
-        flex-direction: column;
+        padding: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: Arial, "Franklin Gothic Medium", "Arial Narrow", Arial,
+          sans-serif;
+        overflow-x: hidden;
+        background-color: #f5f5f5;
+        margin: 0;
         color: #333;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 150vh;
+        /* overflow: hidden; */
+        justify-content: space-between;
+      }
+
+      p {
+        margin: 0;
+        padding: 0;
       }
 
       h1 {
         color: #007bff;
-        text-align: center;
       }
 
       form {
@@ -100,14 +113,257 @@
         font-weight: bold;
       }
       .container {
-        margin-top: 12%;
+        margin-top: -12%;
         display: flex;
+      }
+
+      header {
+        width: 100%;
+        height: 50px;
+        background-color: #235789;
+        display: flex;
+        color: #fdfffc;
+        font-weight: bold;
+        padding: 0 50px;
+        font-size: 24px;
+        align-items: center;
+        justify-content: space-between;
+      }
+      header img {
+        margin-left: 100px;
+      }
+
+      header ul {
+        display: flex;
+        color: #fdfffc;
+        text-decoration: none;
+        font-weight: lighter;
+        list-style: none;
+        gap: 12px;
+        font-size: 16px;
+      }
+      ul a {
+        margin-right: 40px;
+        text-decoration: none;
+        color: #fdfffc;
+        margin-left: 40px;
+      }
+      .container2 {
+        display: flex;
+        margin-top: -250px;
+        align-items: center;
+        justify-content: space-between;
+        width: 70%;
+        height: 500px;
+        background: linear-gradient(145deg, #ffffff, #e6e6e6);
+        border-radius: 20px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      /* Image Styling */
+      .container2 img {
+        width: 40%;
+
+        object-fit: cover;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+      }
+
+      /* Content Styling */
+      .content {
+        width: 55%;
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      /* Title Styling */
+      .title {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #333333;
+        margin-bottom: 20px;
+        line-height: 1.4;
+      }
+
+      /* Features List Styling */
+      .features {
+        list-style: none;
+      }
+
+      .features li {
+        font-size: 1.2rem;
+        color: #555555;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+      }
+
+      .features li::before {
+        content: "✔";
+        color: #161925;
+        margin-right: 10px;
+        font-size: 1.2rem;
+      }
+      /* Footer Styling */
+      .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #235789;
+        color: #ffffff;
+        padding: 30px 20px;
+        text-align: center;
+      }
+
+      .footer-content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .logo h2 {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: white;
+      }
+
+      .footer-links {
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        padding: 0;
+      }
+
+      .footer-links li {
+        font-size: 1rem;
+      }
+
+      .footer-links a {
+        text-decoration: none;
+        color: #ffffff;
+        transition: color 0.3s ease;
+      }
+
+      .footer-links a:hover {
+        color: #161925;
+      }
+
+      .social-media {
+        display: flex;
+        gap: 15px;
+      }
+
+      .social-media a img {
+        width: 24px;
+        height: 24px;
+        filter: brightness(0) invert(1);
+        transition: transform 0.3s ease;
+      }
+
+      .social-media a img:hover {
+        transform: scale(1.1);
+      }
+
+      .footer-bottom {
+        margin-top: 20px;
+        font-size: 0.9rem;
+        border-top: 1px solid #333333;
+        padding-top: 10px;
+      }
+
+      .footer-bottom p {
+        margin: 0;
+        color: #aaaaaa;
+      }
+      .testimonials {
+        margin-top: 20px;
+        padding-top: 15px;
+        border-top: 1px solid #dddddd;
+      }
+
+      .testimonials h3 {
+        font-size: 1.2rem;
+        color: #333333;
+        margin-bottom: 10px;
+      }
+
+      .testimonials blockquote {
+        font-size: 1rem;
+        color: #666666;
+        margin-bottom: 10px;
+        padding-left: 15px;
+        border-left: 4px solid #f1d302;
+      }
+
+      .testimonials cite {
+        font-size: 0.9rem;
+        color: #999999;
+        display: block;
+        margin-top: 5px;
       }
     </style>
   </head>
   <body>
-    <h1>Зөв бичгийн алдаа шалгагч</h1>
-    <div class="container">
+    <header>
+      <img
+        src="https://freesvg.org/img/mono-spellcheck.png"
+        alt=""
+        style="width: 40px"
+      />
+      <ul>
+        <li><a href="">About</a></li>
+        <li><a href="">Spellcheck</a></li>
+        <li><a href="">Contact</a></li>
+      </ul>
+    </header>
+
+    <div id="container2" class="container2">
+      <img
+        src="https://www.gingersoftware.com/statics/2.3.23/images/uploads/Group-543.png"
+        alt="Grammar Checker"
+      />
+      <div class="content">
+        <p class="title">
+          Монголын хамгийн шилдэг үг болон дүрмийн алдаа шалгагч веб сайт
+        </p>
+        <p class="description">
+          Бид таны бичсэн текстийн чанарыг нэмэгдүүлэхэд туслах болно. Энэхүү
+          веб сайт нь хурдан, найдвартай бөгөөд алдааг зөв засварладаг
+          онцлогтой.
+        </p>
+        <ul class="features">
+          <li>⚡ Хамгийн дээд хурд</li>
+          <li>🎯 99% Алдааг илрүүлнэ</li>
+          <li>💰 Хамгийн хямд үнэ</li>
+        </ul>
+        <a href="#container1">
+          <button class="cta-button">Алдааг шалгах</button>
+        </a>
+        <div class="testimonials">
+          <h3>Хэрэглэгчдийн санал:</h3>
+          <blockquote>
+            "Энэ веб сайт миний ажилд үнэхээр тус болсон. Алдааг хурдан илрүүлж,
+            үнэн зөв засварласан!"
+            <cite>— Энхээ</cite>
+          </blockquote>
+          <blockquote>
+            "Монгол хэлний бичгийн чадварыг сайжруулахад зайлшгүй хэрэгтэй
+            сайт."
+            <cite>— Батбаяр</cite>
+          </blockquote>
+        </div>
+      </div>
+    </div>
+
+    <div id="container1" class="container">
       <form method="post" action="{% url 'spell_check' %}">
         {% csrf_token %}
         <label for="text">Enter text to check:</label>
@@ -128,6 +384,28 @@
       {% elif text %}
       <p class="no-errors">No spelling errors found!</p>
       {% endif %}
+    </div>
+    <div class="footer">
+      <div class="footer-content">
+        <div class="logo">
+          <h2>MyBrand</h2>
+        </div>
+        <ul class="footer-links">
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#privacy">Privacy Policy</a></li>
+        </ul>
+        <div class="social-media">
+          <a href="#"><img src="icons/facebook.svg" alt="Facebook" /></a>
+          <a href="#"><img src="icons/twitter.svg" alt="Twitter" /></a>
+          <a href="#"><img src="icons/instagram.svg" alt="Instagram" /></a>
+          <a href="#"><img src="icons/linkedin.svg" alt="LinkedIn" /></a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 MyBrand. All rights reserved.</p>
+      </div>
     </div>
   </body>
 </html>
