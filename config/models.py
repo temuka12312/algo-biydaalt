@@ -1,6 +1,5 @@
 from django.db import models
 
-# Create your models here.
 class test():
     name = models.CharField(verbose_name="test", max_length=15)
     
