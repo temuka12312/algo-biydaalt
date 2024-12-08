@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="mn">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>About</title>
+    <title>Mongolian Spell Checker</title>
     <style>
       * {
         margin: 0;
@@ -70,17 +70,14 @@
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
         width: 100%;
         max-width: 600px;
-        max-width: 1000px;
-        text-align: justify;    
       }
 
       form label {
-        font-size: 20px;
+        font-size: 16px;
         font-weight: bold;
         margin-bottom: 8px;
         display: block;
         color: #ccc;
-        text-align: center;
       }
 
       form textarea {
@@ -184,29 +181,33 @@
   </head>
   <body>
     <header>
-      <img src="https://freesvg.org/img/mono-spellcheck.png" alt="Logo" />
-      <ul>
-        <li><a href="about">About</a></li>
-        <li><a href="spell_check">Spellcheck</a></li>
-      </ul>
+    
     </header>
 
     <div class="container">
-      <form method="post">
-        <label for="text">Товч тайлбар</label>
-        <p>2025 оны төсвийн тэнцвэржүүлсэн орлого, тусламжийн дүн 33.5 их наяд төгрөг буюу ДНБ-ий 35.2 хувь, нийт зарлага ба цэвэр зээлийн дүн 33.5 их наяд төгрөг буюу ДНБ-ий 35.2 хувьд хүрч нэгдсэн төсвийн тэнцвэржүүлсэн тэнцэл алдагдалгүй, суурь тэнцэл дотоодын нийт бүтээгдэхүүний 3.5 хувийн ашигтай байхаар төсөлд тусгасан.
-
-          Төсвийн зарлагаас </p>
+      <form method="post" action="{% url 'spell_check' %}">
+        {% csrf_token %}
+        <label for="text">Enter text to check:</label>
+        <textarea id="text" name="text" rows="4" cols="50">{{ text }}</textarea>
+        <button type="submit">Check Spelling</button>
       </form>
+
+      {% if suggestions %}
+      <div class="suggestions">
+        <h2>Spelling Suggestions</h2>
+        <ul>
+          {% for word, suggestion in suggestions.items %}
+          <li><strong>{{ word }}</strong> → {{ suggestion }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% elif text %}
+      <p class="no-errors">No spelling errors found!</p>
+      {% endif %}
     </div>
 
     <footer class="footer">
-      <ul class="footer-links">
-        <li><a href="#">Privacy Policy</a></li>
-        <li><a href="#">Terms of Service</a></li>
-        <li><a href="#">Contact Us</a></li>
-      </ul>
-      <div class="footer-bottom">&copy; 2024 Mongolian Spell Checker. All rights reserved.</div>
+     
     </footer>
   </body>
 </html>
