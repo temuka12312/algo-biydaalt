@@ -17,19 +17,15 @@ def ping(request):
 
 logger = logging.getLogger(__name__)
 
-# SpellChecker тохируулах
 spell = SpellChecker(language=None)
 
-# Монгол хэлний толь бичгийн файлуудыг зааж өгөх
 mn_dic_path = os.path.join('mn.dic')
 mn_aff_path = os.path.join('mn.aff')
 
 try:
-    # mn.dic файлыг SpellChecker-д нэмэх
     spell.word_frequency.load_text_file(mn_dic_path)
     logger.info("mn.dic амжилттай ачааллаа.")
 
-    # mn.aff файлыг SpellChecker-д дүрмийн дагуу нэмэх
     spell.word_frequency.load_text_file(mn_aff_path)
     logger.info("mn.aff амжилттай ачааллаа.")
 except FileNotFoundError as e:
@@ -44,19 +40,15 @@ def preprocess_text(text):
     2. Тусгай тэмдэгтүүд болон тоог устгах.
     3. Үгсийг массив болгон буцаах.
     """
-    # Том үсгийг жижиг болгох
     text = text.lower()
 
-    # Тусгай тэмдэгтүүд болон тоог устгах
-    text = re.sub(r'[^\w\s]', '', text)  # Тусгай тэмдэгтүүдийг арилгах
-    text = re.sub(r'\d+', '', text)      # Тоог арилгах
+    text = re.sub(r'[^\w\s]', '', text)  
+    text = re.sub(r'\d+', '', text)      
 
-    # Үгсэд хуваах
     words = text.split()
 
     return words
 
-# Кэштэй зөв бичгийн функц үүсгэх
 @lru_cache(maxsize=1000)
 def cached_correction(word):
     return spell.correction(word)
