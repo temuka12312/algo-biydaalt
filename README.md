@@ -1,5 +1,5 @@
 # algo-biydaalt
-#   Э.ТҮВШИН-САНАА B221910062
+#   Э.ТҮВШИНСАНАА B221910062
 #   М.ТЭМҮҮЛЭН   B221910045
 
 # Getting Started
@@ -18,6 +18,12 @@ daraanan project luugee:
 
 gej orno
 
+projectluuga orsnii daraa sanguuda tataj avna:
+Install project dependencies:
+
+    $ pip install -r requirements.txt
+
+
 First clone the repository from Github and switch to the new directory:
 
     $ git clone git@github.com/USERNAME/{{ project_name }}.git
@@ -26,9 +32,9 @@ First clone the repository from Github and switch to the new directory:
 Activate the virtualenv for your project.
 
 # model deer ba url deer yum oorcluul ene 2 iig terminal deere unshuulna
-Install project dependencies:
+1:
 
-    $ pip install -r requirements.txt
+    $ python manage.py makemigrations
     
 Then simply apply the migrations:
 
