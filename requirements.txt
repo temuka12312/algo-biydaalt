@@ -1,2 +1,4 @@
 Django
 pyspellchecker
+wasmer
+spylls

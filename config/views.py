@@ -1,26 +1,20 @@
+import os
+import re
+import logging
+from functools import lru_cache
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-from spellchecker import SpellChecker
-import logging
-import os
-from functools import lru_cache
 from django.http import JsonResponse
-import re
-
-def ping(request):
-    data = {}
-    data['build_mode'] = os.environ.get("BUILD_MODE")
-    data['build_date'] = os.environ.get("BUILD_DATE")
-    data['version'] = os.environ.get("IMAGE_VERSION")
-    data['app'] = "core"
-    return JsonResponse(data)
+from spellchecker import SpellChecker
+import traceback
 
 logger = logging.getLogger(__name__)
 
 spell = SpellChecker(language=None)
 
-mn_dic_path = os.path.join('mn.dic')
-mn_aff_path = os.path.join('mn.aff')
+# Use absolute path to the dictionaries
+mn_dic_path = os.path.join(os.path.dirname(__file__), 'mn.dic')
+mn_aff_path = os.path.join(os.path.dirname(__file__), 'mn.aff')
 
 try:
     spell.word_frequency.load_text_file(mn_dic_path)
@@ -31,7 +25,8 @@ try:
 except FileNotFoundError as e:
     logger.error(f"Монгол хэлний толь бичгийн файл олдсонгүй: {e}")
 except Exception as e:
-    logger.error(f"Толь бичгийг ачаалахад алдаа гарлаа: {e}")
+    logger.error(f"Толь бичгийг ачаалахад алдаа гарлаа: {str(e)}")
+    logger.error(f"Трасс: {traceback.format_exc()}")
 
 def preprocess_text(text):
     """
@@ -40,17 +35,14 @@ def preprocess_text(text):
     2. Тусгай тэмдэгтүүд болон тоог устгах.
     3. Үгсийг массив болгон буцаах.
     """
-    text = text.lower()
-
     text = re.sub(r'[^\w\s]', '', text)  
     text = re.sub(r'\d+', '', text)      
-
     words = text.split()
-
     return words
 
 @lru_cache(maxsize=1000)
 def cached_correction(word):
+    # Тус үгийг "suggested" гэж тэмдэглэх эсвэл засаж болох өөрчлөлт хийж болно.
     return spell.correction(word)
 
 @csrf_exempt
@@ -61,17 +53,17 @@ def spell_check_view(request):
     if request.method == 'POST':
         text = request.POST.get('text', '') 
         words = preprocess_text(text)
-
         misspelled_words = spell.unknown(words)
 
         for word in misspelled_words:
-            suggestions[word] = cached_correction(word)
+            suggested_word = cached_correction(word)
+            # Засваруудыг сайтар шалгах, илүү тохиромжтой үгс санал болгох
+            suggestions[word] = suggested_word
 
     return render(request, 'index.html', {
         'text': text,
         'suggestions': suggestions
     })
-
 
 def about(request):
     return render(request, 'about.html')

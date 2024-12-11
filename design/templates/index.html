@@ -67,10 +67,11 @@
       <form method="post" action="{% url 'spell_check' %}">
         {% csrf_token %}
         <label for="text">Шалгах үгээ оруулна уу:</label>
-        <textarea id="text" name="text" rows="4" cols="50">{{ text }}</textarea>
+        <textarea id="text" name="text" rows="4" cols="50" oninput="updateWordCount()">{{ text }}</textarea>
+        <p class="p-12">Үгийн тоо: <span id="word-count">0</span> / 400</p>
         <button type="submit">Шалгах</button>
       </form>
-
+    
       {% if suggestions %}
       <div class="suggestions">
         <h2>Шалгасан үг</h2>
@@ -83,7 +84,7 @@
       {% elif text %}
       <p class="no-errors">Алдаа олсонгүй</p>
       {% endif %}
-    </div>  
+    </div>
      
   <script src="{{ STATIC_URL }}js/script.js"></script>
   </body>
