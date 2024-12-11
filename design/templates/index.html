@@ -543,14 +543,14 @@
     <div class="container">
       <form method="post" action="{% url 'spell_check' %}">
         {% csrf_token %}
-        <label for="text">Enter text to check:</label>
+        <label for="text">Шалгах үгээ оруулна уу:</label>
         <textarea id="text" name="text" rows="4" cols="50">{{ text }}</textarea>
-        <button type="submit">Check Spelling</button>
+        <button type="submit">Шалгах</button>
       </form>
 
       {% if suggestions %}
       <div class="suggestions">
-        <h2>Spelling Suggestions</h2>
+        <h2>Шалгасан үг</h2>
         <ul>
           {% for word, suggestion in suggestions.items %}
           <li><strong>{{ word }}</strong> → {{ suggestion }}</li>
@@ -558,7 +558,7 @@
         </ul>
       </div>
       {% elif text %}
-      <p class="no-errors">No spelling errors found!</p>
+      <p class="no-errors">Алдаа олсонгүй</p>
       {% endif %}
     </div>
      

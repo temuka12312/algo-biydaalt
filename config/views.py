@@ -3,6 +3,8 @@ from django.views.decorators.csrf import csrf_exempt
 from spellchecker import SpellChecker
 import logging
 import os
+from functools import lru_cache
+import re
 
 logger = logging.getLogger(__name__)
 
@@ -26,6 +28,30 @@ except FileNotFoundError as e:
 except Exception as e:
     logger.error(f"Толь бичгийг ачаалахад алдаа гарлаа: {e}")
 
+def preprocess_text(text):
+    """
+    Текстийг урьдчилан боловсруулж үгсэд хуваах.
+    1. Том үсгийг жижиг болгох.
+    2. Тусгай тэмдэгтүүд болон тоог устгах.
+    3. Үгсийг массив болгон буцаах.
+    """
+    # Том үсгийг жижиг болгох
+    text = text.lower()
+
+    # Тусгай тэмдэгтүүд болон тоог устгах
+    text = re.sub(r'[^\w\s]', '', text)  # Тусгай тэмдэгтүүдийг арилгах
+    text = re.sub(r'\d+', '', text)      # Тоог арилгах
+
+    # Үгсэд хуваах
+    words = text.split()
+
+    return words
+
+# Кэштэй зөв бичгийн функц үүсгэх
+@lru_cache(maxsize=1000)
+def cached_correction(word):
+    return spell.correction(word)
+
 @csrf_exempt
 def spell_check_view(request):
     suggestions = {}
@@ -33,21 +59,18 @@ def spell_check_view(request):
 
     if request.method == 'POST':
         text = request.POST.get('text', '') 
-        words = text.split()  # Текстийг үгсэд хуваах
+        words = preprocess_text(text)
 
         misspelled_words = spell.unknown(words)
 
         for word in misspelled_words:
-            if word in spell:
-                suggestions[word] = word  # Үг өөрөө зөв гэж тооцох
-            else:
-                suggestions[word] = spell.correction(word)
+            suggestions[word] = cached_correction(word)
 
-    # Front-end-д буцаах
     return render(request, 'index.html', {
         'text': text,
         'suggestions': suggestions
     })
+
 
 def about(request):
     return render(request, 'about.html')
