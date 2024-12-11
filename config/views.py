@@ -4,7 +4,16 @@ from spellchecker import SpellChecker
 import logging
 import os
 from functools import lru_cache
+from django.http import JsonResponse
 import re
+
+def ping(request):
+    data = {}
+    data['build_mode'] = os.environ.get("BUILD_MODE")
+    data['build_date'] = os.environ.get("BUILD_DATE")
+    data['version'] = os.environ.get("IMAGE_VERSION")
+    data['app'] = "core"
+    return JsonResponse(data)
 
 logger = logging.getLogger(__name__)
 
