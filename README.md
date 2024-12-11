@@ -4,23 +4,38 @@
 
 # Getting Started
 
+ehleed orcinluuga orno
+terminal deeree:
+
+    $ lantuuvirtualenv\script\activate.bat
+result n terminal deer ingej haragdna:
+
+    $ (lantuuvirtualenv)c:users\user
+
+daraanan project luugee:
+
+    $ cd algo-biydaalt
+
+gej orno
+
 First clone the repository from Github and switch to the new directory:
 
     $ git clone git@github.com/USERNAME/{{ project_name }}.git
     $ cd {{ project_name }}
     
 Activate the virtualenv for your project.
-    
+
+# model deer ba url deer yum oorcluul ene 2 iig terminal deere unshuulna
 Install project dependencies:
 
-    $ pip install -r requirements/local.txt
-    
+    $ pip install -r requirements.txt
     
 Then simply apply the migrations:
 
     $ python manage.py migrate
     
 
+# server asaahdaa
 You can now run the development server:
 
     $ python manage.py runserver
