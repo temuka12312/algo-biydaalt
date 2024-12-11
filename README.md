@@ -1,3 +1,4 @@
+### Django deer hiigdsen project bolhoor requirments.txt iig zaaval tataj baij ajilna!!!!!!
 # algo-biydaalt
 #   Э.ТҮВШИНСАНАА B221910062
 #   М.ТЭМҮҮЛЭН   B221910045
