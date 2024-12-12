@@ -12,7 +12,6 @@ logger = logging.getLogger(__name__)
 
 spell = SpellChecker(language=None)
 
-# Use absolute path to the dictionaries
 mn_dic_path = os.path.join(os.path.dirname(__file__), 'mn.dic')
 mn_aff_path = os.path.join(os.path.dirname(__file__), 'mn.aff')
 
@@ -33,7 +32,7 @@ def preprocess_text(text):
     Текстийг урьдчилан боловсруулж үгсэд хуваах.
     1. Том үсгийг жижиг болгох.
     2. Тусгай тэмдэгтүүд болон тоог устгах.
-    3. Үгсийг массив болгон буцаах.
+    3. Үгсийг массив болгон буцаах. 
     """
     text = re.sub(r'[^\w\s]', '', text)  
     text = re.sub(r'\d+', '', text)      
@@ -42,7 +41,6 @@ def preprocess_text(text):
 
 @lru_cache(maxsize=1000)
 def cached_correction(word):
-    # Тус үгийг "suggested" гэж тэмдэглэх эсвэл засаж болох өөрчлөлт хийж болно.
     return spell.correction(word)
 
 @csrf_exempt
@@ -57,7 +55,6 @@ def spell_check_view(request):
 
         for word in misspelled_words:
             suggested_word = cached_correction(word)
-            # Засваруудыг сайтар шалгах, илүү тохиромжтой үгс санал болгох
             suggestions[word] = suggested_word
 
     return render(request, 'index.html', {
